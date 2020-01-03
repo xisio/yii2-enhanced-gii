@@ -1092,7 +1092,12 @@ if (array_key_exists($attribute, $fk) && $attribute) {
 
         $likeConditions = [];
         $hashConditions = [];
-        foreach ($columns as $column => $type) {
+		foreach ($columns as $column => $type) {
+			if(preg_match('/uuid/',$column)){
+				
+                $hashConditions[] = "'{$column}' => \$this->{$column},";
+				continue;
+			}
             switch ($type) {
                 case Schema::TYPE_SMALLINT:
                 case Schema::TYPE_INTEGER:
